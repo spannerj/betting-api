@@ -1,3 +1,4 @@
+import os
 # RULES OF CONFIG:
 # 1. No region specific code. Regions are defined by setting the OS environment variables appropriately to build up the
 # desired behaviour.
@@ -5,30 +6,13 @@
 # app starting.
 # 3. This is the only file in the app where os.getenv should be used.
 
-
-import os
-
-# --- Database variables start
-
-# These must all be set in the OS environment.
-# The password must be the correct one for either the app user or alembic user,
-# depending on which will be used (which is controlled by the SQL_USE_ALEMBIC_USER variable)
-
-SQL_HOST = os.getenv('SQL_HOST')
-SQL_DATABASE = os.getenv('SQL_DATABASE')
-SQL_PASSWORD = os.getenv('SQL_PASSWORD')
-APP_SQL_USERNAME = os.getenv('APP_SQL_USERNAME')
-ALEMBIC_SQL_USERNAME = os.getenv('ALEMBIC_SQL_USERNAME')
-
-if os.getenv('SQL_USE_ALEMBIC_USER') == 'yes':
-    FINAL_SQL_USERNAME = ALEMBIC_SQL_USERNAME
-else:
-    FINAL_SQL_USERNAME = APP_SQL_USERNAME
-
-SQLALCHEMY_DATABASE_URI = 'postgres://{0}:{1}@{2}/{3}'.format(FINAL_SQL_USERNAME, SQL_PASSWORD, SQL_HOST, SQL_DATABASE)
-SQLALCHEMY_TRACK_MODIFICATIONS = False  # Explicitly set this in order to remove warning on run
-
-# --- Database variables end
-
+# For logging
 FLASK_LOG_LEVEL = os.getenv('FLASK_LOG_LEVEL')
+# For health route
 COMMIT = os.getenv('COMMIT')
+
+# Using SQLAlchemy/Postgres?
+# The required variables (and required usage) can be found here:
+# http://192.168.249.38/gadgets/gadget-api/blob/master/gadget_api/config.py
+
+
