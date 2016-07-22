@@ -9,7 +9,8 @@ general = Blueprint('general', __name__)
 @general.route("/health")
 def check_status():
     return Response(response=json.dumps({
-        "Status": "OK",
+        "app": "flask-skeleton-api",
+        "status": "OK",
         "headers": str(request.headers),
         "commit": current_app.config["COMMIT"]
     }),  mimetype='application/json', status=200)
