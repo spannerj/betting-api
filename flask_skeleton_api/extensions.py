@@ -12,11 +12,14 @@ def register_extensions(app):
     """
     # Logging
     logger.init_app(app)
+    # Need to add the filter for trace id to both the werkzeug logger as well as the app logger, as
+    # the native flask app server uses the werkzeug logger but gunicorn does not
+    logging.getLogger('werkzeug').addFilter(ContextualFilter())
     app.logger.addFilter(ContextualFilter())
     logger.set_formatter('%(asctime)s level=[%(levelname)s] traceid=[%(trace_id)s]' +
                          ' message=[%(message)s] exception=[%(exc_info)s]')
 
-    # Using SQLAlchemy? An example can be found at 
+    # Using SQLAlchemy? An example can be found at
     # http://192.168.249.38/gadgets/gadget-api/blob/master/gadget_api/extensions.py
 
     # All done!
