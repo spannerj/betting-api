@@ -14,5 +14,3 @@ def check_status():
         "headers": str(request.headers),
         "commit": current_app.config["COMMIT"]
     }),  mimetype='application/json', status=200)
-
-

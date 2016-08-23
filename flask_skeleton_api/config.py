@@ -16,30 +16,44 @@ COMMIT = os.getenv('COMMIT')
 # http://192.168.249.38/gadgets/gadget-api/blob/master/gadget_api/config.py
 
 LOGCONFIG = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'simple': {
-                'format': '%(asctime)s level=[%(levelname)s] traceid=[%(trace_id)s] message=[%(message)s] exception=[%(exc_info)s]'
-            }
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s level=[%(levelname)s] traceid=[%(trace_id)s] ' +
+                      'message=[%(message)s] exception=[%(exc_info)s]'
         },
-        'filters': {
-            'contextual': {
-                '()': 'flask_skeleton_api.extensions.ContextualFilter'
-            }
+        'audit': {
+            'format': '%(asctime)s level=[AUDIT] traceid=[%(trace_id)s] message=[%(message)s]]'
+        }
+    },
+    'filters': {
+        'contextual': {
+            '()': 'flask_skeleton_api.extensions.ContextualFilter'
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+            'filters': ['contextual'],
+            'stream': 'ext://sys.stdout'
         },
-        'handlers': {
-            'console': {
-                'class': 'logging.StreamHandler',
-                'formatter': 'simple',
-                'filters': ['contextual'],
-                'stream': 'ext://sys.stdout'
-            }
+        'audit_console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'audit',
+            'filters': ['contextual'],
+            'stream': 'ext://sys.stdout'
+        }
+    },
+    'loggers': {
+        'flask_skeleton_api': {
+            'handlers': ['console'],
+            'level': FLASK_LOG_LEVEL
         },
-        'loggers': {
-            'flask_skeleton_api': {
-                'handlers': ['console'],
-                'level': FLASK_LOG_LEVEL
-            }
+        'audit': {
+            'handlers': ['audit_console'],
+            'level': 'INFO'
         }
     }
+}

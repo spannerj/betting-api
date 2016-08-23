@@ -13,6 +13,10 @@ def register_extensions(app):
     # Logging
     logger.init_app(app)
 
+    # Along with the default flask logger (app.logger) define a new one specifically for audit. To use this logger
+    # just add app.audit_logger.info("an audit point").
+    app.audit_logger = logging.getLogger("audit")
+
     # Using SQLAlchemy? An example can be found at
     # http://192.168.249.38/gadgets/gadget-api/blob/master/gadget_api/extensions.py
 
