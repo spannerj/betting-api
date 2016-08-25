@@ -8,12 +8,6 @@ FROM lr_base_python_flask
 # ----
 # Put your app-specific stuff here (extra yum installs etc).
 # Any unique environment variables your config.py needs should also be added as ENV entries here
-
-WORKDIR /src
-
-# Added this environment variable so that pytest can import the flask_skeleton_api package.
-ENV PYTHONPATH /src
-
 # ----
 
 # The command to run the app.
