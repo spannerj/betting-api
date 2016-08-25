@@ -168,7 +168,7 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
-TEST-*.xml
+test-output/
 
 # Translations
 *.mo

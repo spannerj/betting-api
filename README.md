@@ -26,13 +26,47 @@ flask run
 
 ## Unit tests
 
-[Pytest](http://docs.pytest.org/en/latest/) is used for unit testing. To run the tests run the following command:
+The unit tests are contained in the unit_tests folder. [Pytest](http://docs.pytest.org/en/latest/) is used for unit testing. To run the tests use the following command:
 
 ```
 py.test
 ```
 
-The tests are automatically configured to run coverage and output to HTML.
+To run them and output a coverage report and the a junit xml file run:
+
+```
+bash unit_test.sh
+```
+
+These files get added to a test-output folder. The test-output folder is created if doesn't exist.
+
+To run the unit tests if you are using the common dev-env use the following command:
+
+```
+docker-compose exec flask-skeleton-api py.test
+```
+
+# Integration tests
+
+The integration tests are contained in the integration_tests folder. [Pytest](http://docs.pytest.org/en/latest/) is used for integration testing. To run the tests use the following command:
+
+```
+py.test integration_tests
+```
+
+To run them and output a junit xml file run:
+
+```
+bash integration_test.sh
+```
+
+This file gets added to the test-output folder. The test-output folder is created if doesn't exist.
+
+To run the integration tests if you are using the common dev-env use the following command:
+
+```
+docker-compose exec flask-skeleton-api py.test integration_tests
+```
 
 ## Notes
 
