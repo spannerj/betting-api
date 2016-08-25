@@ -15,8 +15,8 @@ def before_request():
     if trace_id is None:
         trace_id = uuid.uuid4().hex
     g.trace_id = trace_id
-    # We also create a session-level requests object for the app to use with the header pre-set, so other APIs will receive it.
-    # These lines can be removed if the app will not make requests to other LR APIs!
+    # We also create a session-level requests object for the app to use with the header pre-set, so other APIs will
+    # receive it. These lines can be removed if the app will not make requests to other LR APIs!
     g.requests = requests.Session()
     g.requests.headers.update({'X-Trace-ID': trace_id})
 
