@@ -11,8 +11,6 @@ def check_status():
     return Response(response=json.dumps({
         "app": "flask-skeleton-api",
         "status": "OK",
-        "headers": str(request.headers),
+        "headers": request.headers.to_list(),
         "commit": current_app.config["COMMIT"]
     }),  mimetype='application/json', status=200)
-
-
