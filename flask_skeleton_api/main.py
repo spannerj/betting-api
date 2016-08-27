@@ -3,8 +3,11 @@
 from flask_skeleton_api.app import app
 from flask_skeleton_api.extensions import register_extensions
 from flask_skeleton_api.blueprints import register_blueprints
+from flask_skeleton_api.exceptions import register_exception_handlers
 
 # Now we register any extensions we use into the app
 register_extensions(app)
+# Register the exception handlers
+register_exception_handlers(app)
 # Finally we register our blueprints to get our routes up and running.
 register_blueprints(app)
