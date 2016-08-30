@@ -8,7 +8,6 @@ general = Blueprint('general', __name__)
 
 @general.route("/health")
 def check_status():
-    raise ArithmeticError("Bad math mojo")
     return Response(response=json.dumps({
         "app": "flask-skeleton-api",
         "status": "OK",
