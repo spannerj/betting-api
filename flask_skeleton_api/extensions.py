@@ -1,5 +1,5 @@
 from flask_logconfig import LogConfig
-import logging
+import logging, json, traceback, time
 from flask import g, ctx
 
 # Create empty extension objects here
@@ -35,3 +35,32 @@ class ContextualFilter(logging.Filter):
         else:
             log_record.trace_id = 'N/A'
         return True
+
+class JsonFormatter(logging.Formatter):
+    def format(self, record):
+        if record.exc_info:
+            exc = traceback.format_exception(*record.exc_info)
+        else:
+            exc = None
+
+        return json.dumps({
+            'timestamp': time.ctime(int(record.created)),
+            'traceid': record.trace_id,
+            'message': record.msg % record.args,
+            'level': record.levelname,
+            'exception': exc
+        })
+
+class JsonAuditFormatter(logging.Formatter):
+    def format(self, record):
+        if record.exc_info:
+            exc = traceback.format_exception(*record.exc_info)
+        else:
+            exc = None
+
+        return json.dumps({
+            'timestamp': time.ctime(int(record.created)),
+            'traceid': record.trace_id,
+            'message': record.msg % record.args,
+            'level': 'AUDIT'
+        })
