@@ -1,3 +1,6 @@
+# Added current directory to python path as py.test does not add it
+export PYTHONPATH=.
+
 reportflag=off
 
 # Check if there's a -r argument (the only one supported) and set a flag if so
@@ -18,5 +21,3 @@ if [ "$reportflag" = on ] ; then
 else
     py.test
 fi
-
-
