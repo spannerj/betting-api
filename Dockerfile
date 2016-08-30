@@ -16,7 +16,7 @@ FROM lr_base_python_flask
 #   Access log is redirected to stderr.
 #   Flask app object is located at <app name>.main:app
 #   Dynamic reloading is enabled
-CMD ["/usr/local/bin/gunicorn", "-k", "eventlet", "--pythonpath", "/src", "--access-logfile", "-", "flask_skeleton_api.main:app", "--reload"]
+CMD ["/usr/local/bin/gunicorn", "-k", "eventlet", "--pythonpath", "/src", "--access-logfile", "-", "manage:manager.app", "--reload"]
 
 # Get the python environment ready.
 # Have this at the end so if the files change, all the other steps don't need to be rerun. Same reason why _test is

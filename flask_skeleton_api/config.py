@@ -7,7 +7,7 @@ import os
 # 3. This is the only file in the app where os.getenv should be used.
 
 # For logging
-FLASK_LOG_LEVEL = os.getenv('FLASK_LOG_LEVEL')
+FLASK_LOG_LEVEL = os.getenv('LOG_LEVEL')
 # For health route
 COMMIT = os.getenv('COMMIT')
 
