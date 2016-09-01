@@ -24,7 +24,7 @@ LOGCONFIG = {
                       'message=[%(message)s] exception=[%(exc_info)s]'
         },
         'audit': {
-            'format': '%(asctime)s level=[AUDIT] traceid=[%(trace_id)s] message=[%(message)s]]'
+            'format': '%(asctime)s level=[AUDIT] traceid=[%(trace_id)s] message=[%(message)s]'
         }
     },
     'filters': {
