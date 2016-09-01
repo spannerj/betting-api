@@ -1,6 +1,10 @@
 from flask_logconfig import LogConfig
-import logging, json, traceback, time
+import logging
+import json
+import traceback
+import time
 from flask import g, ctx
+import collections
 
 # Create empty extension objects here
 logger = LogConfig()
@@ -36,6 +40,7 @@ class ContextualFilter(logging.Filter):
             log_record.trace_id = 'N/A'
         return True
 
+
 class JsonFormatter(logging.Formatter):
     def format(self, record):
         if record.exc_info:
@@ -43,24 +48,22 @@ class JsonFormatter(logging.Formatter):
         else:
             exc = None
 
-        return json.dumps({
-            'timestamp': time.ctime(int(record.created)),
-            'traceid': record.trace_id,
-            'message': record.msg % record.args,
-            'level': record.levelname,
-            'exception': exc
-        })
+        log_entry = collections.OrderedDict()
+        log_entry['timestamp'] = time.ctime(int(record.created)),
+        log_entry['level'] = record.levelname,
+        log_entry['traceid'] = record.trace_id,
+        log_entry['message'] = record.msg % record.args,
+        log_entry['exception'] = exc
+
+        return json.dumps(log_entry)
+
 
 class JsonAuditFormatter(logging.Formatter):
     def format(self, record):
-        if record.exc_info:
-            exc = traceback.format_exception(*record.exc_info)
-        else:
-            exc = None
+        log_entry = collections.OrderedDict()
+        log_entry['timestamp'] = time.ctime(int(record.created)),
+        log_entry['level'] = 'AUDIT',
+        log_entry['traceid'] = record.trace_id,
+        log_entry['message'] = record.msg % record.args
 
-        return json.dumps({
-            'timestamp': time.ctime(int(record.created)),
-            'traceid': record.trace_id,
-            'message': record.msg % record.args,
-            'level': 'AUDIT'
-        })
+        return json.dumps(log_entry)

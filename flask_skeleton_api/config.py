@@ -20,8 +20,8 @@ LOGCONFIG = {
     'disable_existing_loggers': False,
     'formatters': {
         'simple': {
-                    '()': 'flask_skeleton_api.extensions.JsonFormatter'
-                },
+            '()': 'flask_skeleton_api.extensions.JsonFormatter'
+        },
         'audit': {
             '()': 'flask_skeleton_api.extensions.JsonAuditFormatter'
         }
