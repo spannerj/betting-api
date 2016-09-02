@@ -2,7 +2,6 @@ from flask_logconfig import LogConfig
 import logging
 import json
 import traceback
-import time
 from flask import g, ctx
 import collections
 
