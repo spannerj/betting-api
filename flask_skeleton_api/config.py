@@ -8,8 +8,10 @@ import os
 
 # For logging
 FLASK_LOG_LEVEL = os.getenv('LOG_LEVEL')
+
 # For health route
 COMMIT = os.getenv('COMMIT')
+APP_NAME = os.getenv('APP_NAME')
 
 # Using SQLAlchemy/Postgres?
 # The required variables (and required usage) can be found here:
