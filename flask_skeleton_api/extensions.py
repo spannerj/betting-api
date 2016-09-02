@@ -48,22 +48,24 @@ class JsonFormatter(logging.Formatter):
         else:
             exc = None
 
-        log_entry = collections.OrderedDict()
-        log_entry['timestamp'] = time.ctime(int(record.created)),
-        log_entry['level'] = record.levelname,
-        log_entry['traceid'] = record.trace_id,
-        log_entry['message'] = record.msg % record.args,
-        log_entry['exception'] = exc
+        # Timestamp must be first (webops request)
+        log_entry = collections.OrderedDict(
+            [('timestamp', self.formatTime(record)),
+             ('level', record.levelname),
+             ('traceid', record.trace_id),
+             ('message', record.msg % record.args),
+             ('exception', exc)])
 
         return json.dumps(log_entry)
 
 
 class JsonAuditFormatter(logging.Formatter):
     def format(self, record):
-        log_entry = collections.OrderedDict()
-        log_entry['timestamp'] = time.ctime(int(record.created)),
-        log_entry['level'] = 'AUDIT',
-        log_entry['traceid'] = record.trace_id,
-        log_entry['message'] = record.msg % record.args
+        # Timestamp must be first (webops request)
+        log_entry = collections.OrderedDict(
+            [('timestamp', self.formatTime(record)),
+             ('level', 'AUDIT'),
+             ('traceid', record.trace_id),
+             ('message', record.msg % record.args)])
 
         return json.dumps(log_entry)
