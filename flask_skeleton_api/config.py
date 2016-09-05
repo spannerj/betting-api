@@ -20,11 +20,10 @@ LOGCONFIG = {
     'disable_existing_loggers': False,
     'formatters': {
         'simple': {
-            'format': '%(asctime)s level=[%(levelname)s] traceid=[%(trace_id)s] ' +
-                      'message=[%(message)s] exception=[%(exc_info)s]'
+            '()': 'flask_skeleton_api.extensions.JsonFormatter'
         },
         'audit': {
-            'format': '%(asctime)s level=[AUDIT] traceid=[%(trace_id)s] message=[%(message)s]'
+            '()': 'flask_skeleton_api.extensions.JsonAuditFormatter'
         }
     },
     'filters': {
