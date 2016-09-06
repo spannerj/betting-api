@@ -24,19 +24,31 @@ export COMMIT=LOCAL
 flask run
 ```
 
+or run the shell command:
+
+```bash
+python3 manage.py runserver
+```
+
+To see what other commands are available run:
+
+```bash
+python manage.py --help
+```
+
 ## Unit tests
 
 The unit tests are contained in the unit_tests folder. [Pytest](http://docs.pytest.org/en/latest/) is used for unit testing. To run the tests use the following command:
 
 ```bash
-bash unit_test.sh
+python3 manage.py unittest
 (or just py.test)
 ```
 
 To run them and output a coverage report and a junit xml file run:
 
 ```bash
-bash unit_test.sh -r
+python3 manage.py unittest -r
 ```
 
 These files get added to a test-output folder. The test-output folder is created if doesn't exist.
@@ -44,7 +56,7 @@ These files get added to a test-output folder. The test-output folder is created
 To run the unit tests if you are using the common dev-env use the following command:
 
 ```bash
-docker-compose exec flask-skeleton-api bash unit_test.sh
+docker-compose exec flask-skeleton-api python3 manage.py unittest
 or, using the alias
 unit-test flask-skeleton-api
 ```
@@ -52,7 +64,7 @@ unit-test flask-skeleton-api
 or
 
 ```bash
-docker-compose exec flask-skeleton-api bash unit_test.sh -r
+docker-compose exec flask-skeleton-api python3 manage.py unittest -r
 or, using the alias
 unit-test flask-skeleton-api -r
 ```
@@ -62,13 +74,14 @@ unit-test flask-skeleton-api -r
 The integration tests are contained in the integration_tests folder. [Pytest](http://docs.pytest.org/en/latest/) is used for integration testing. To run the tests use the following command:
 
 ```
-py.test integration_tests
+python3 manage.py integrationtest
+(or py.test integration_tests)
 ```
 
 To run them and output a junit xml file run:
 
 ```
-bash integration_test.sh
+python3 manage.py integrationtest -r
 ```
 
 This file gets added to the test-output folder. The test-output folder is created if doesn't exist.
@@ -76,7 +89,7 @@ This file gets added to the test-output folder. The test-output folder is create
 To run the integration tests if you are using the common dev-env use the following command:
 
 ```
-docker-compose exec flask-skeleton-api py.test integration_tests
+docker-compose exec flask-skeleton-api python3 manage.py integrationtest
 ```
 
 ## Notes

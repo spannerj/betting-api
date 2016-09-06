@@ -7,6 +7,8 @@ manager = Manager(app)
 
 @manager.command
 def unittest(report=False):
+    """Run unit tests"""
+
     if report:
         subprocess.call(["py.test", "--junitxml=test-output/unit-test-output.xml",
                          "--cov-report=html:test-output/unit-test-cov-report"])
@@ -16,6 +18,8 @@ def unittest(report=False):
 
 @manager.command
 def integrationtest(report=False):
+    """Run integration tests"""
+
     if report:
         subprocess.call(["py.test", "--junitxml=test-output/integration-test-output.xml",
                          "integration_tests"])
@@ -25,6 +29,8 @@ def integrationtest(report=False):
 
 @manager.command
 def runserver():
+    """Run the app using flask server"""
+
     app.run(debug=True, port=8080)
 
 if __name__ == "__main__":
