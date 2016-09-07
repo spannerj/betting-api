@@ -11,6 +11,9 @@ FLASK_LOG_LEVEL = os.getenv('LOG_LEVEL')
 
 # For health route
 COMMIT = os.getenv('COMMIT')
+
+# This APP_NAME variable is to allow changing the app name when the app is running in a cluster. So that
+# each app in the cluster will have a unique name.
 APP_NAME = os.getenv('APP_NAME')
 
 # Using SQLAlchemy/Postgres?

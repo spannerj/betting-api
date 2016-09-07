@@ -1,6 +1,7 @@
 from flask_script import Manager
 from flask_skeleton_api.main import app
 import subprocess
+import os
 
 manager = Manager(app)
 
@@ -28,10 +29,14 @@ def integrationtest(report=False):
 
 
 @manager.command
-def runserver():
+def runserver(port=9998):
     """Run the app using flask server"""
 
-    app.run(debug=True, port=8080)
+    os.environ["PYTHONUNBUFFERED"] = "yes"
+    os.environ["LOG_LEVEL"] = "DEBUG"
+    os.environ["COMMIT"] = "LOCAL"
+
+    app.run(debug=True, port=int(port))
 
 if __name__ == "__main__":
     manager.run()
