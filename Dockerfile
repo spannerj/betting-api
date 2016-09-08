@@ -8,6 +8,9 @@ FROM lr_base_python_flask
 # ----
 # Put your app-specific stuff here (extra yum installs etc).
 # Any unique environment variables your config.py needs should also be added as ENV entries here
+
+ENV APP_NAME flask-skeleton-api
+
 # ----
 
 # The command to run the app.
@@ -15,8 +18,10 @@ FROM lr_base_python_flask
 #   The python source folder is /src (mapped to outside file system in docker-compose-fragment)
 #   Access log is redirected to stderr.
 #   Flask app object is located at <app name>.main:app
-#   Dynamic reloading is enabled
-CMD ["/usr/local/bin/gunicorn", "-k", "eventlet", "--pythonpath", "/src", "--access-logfile", "-", "flask_skeleton_api.main:app", "--reload"]
+#   Dynamic reloading is enabled.
+#   This CMD is already set in the lr_base_python_flask Dockerfile. If you need a different one
+#   uncomment and change the line below.
+# CMD ["/usr/local/bin/gunicorn", "-k", "eventlet", "--pythonpath", "/src", "--access-logfile", "-", "manage:manager.app", "--reload"]
 
 # Get the python environment ready.
 # Have this at the end so if the files change, all the other steps don't need to be rerun. Same reason why _test is
