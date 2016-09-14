@@ -15,7 +15,7 @@ export FLASK_DEBUG=1
 # For Python
 export PYTHONUNBUFFERED=yes
 # For gunicorn
-export PORT=9999
+export PORT=9998
 # For app's config.py
 export FLASK_LOG_LEVEL=DEBUG
 export COMMIT=LOCAL
@@ -27,13 +27,7 @@ flask run
 or run the shell command:
 
 ```bash
-python3 manage.py runserver
-```
-
-To see what other commands are available run:
-
-```bash
-python manage.py --help
+make run
 ```
 
 
@@ -49,11 +43,12 @@ Provided via `configuration.yml`, `Dockerfile` and `fragments/docker-compose-fra
 
 The `docker-compose-fragment.yml` contains the service definiton, including the external port to map to, sharing the app source folder for hot reloading, and redirection of the stdout logs to logstash via syslog.
 
-The `Dockerfile` simply sets teh APP_NAME environment variable and installs the pip dependencies. Any app-specific variables or commands can be added here.
+The `Dockerfile` simply sets the APP_NAME environment variable and installs the pip dependencies. Any app-specific variables or commands can be added here.
 
-### Management script
+### Management scripts
 
-Provided via `manage.py`. This gives us a generic WSGI entry point for gunicorn (as it imports the app) plus some extra functions to run unit and integration tests.
+1. `manage.py` - This gives us a generic WSGI entry point for gunicorn (as it imports the app) plus an extra function to run the server in a standalone state. It is also where Alembic database migration code is to be placed.
+2. `Makefile` - This provides generic language-independent functions to run unit and integration tests  (useful for the build pipeline).
 
 ### Test structure
 
@@ -109,14 +104,14 @@ This should be the only place environment variables are read from the underlying
 The unit tests are contained in the unit_tests folder. [Pytest](http://docs.pytest.org/en/latest/) is used for unit testing. To run the tests use the following command:
 
 ```bash
-python3 manage.py unittest
+make unittest
 (or just py.test)
 ```
 
 To run them and output a coverage report and a junit xml file run:
 
 ```bash
-python3 manage.py unittest -r
+make report="true" unittest
 ```
 
 These files get added to a test-output folder. The test-output folder is created if doesn't exist.
@@ -124,7 +119,7 @@ These files get added to a test-output folder. The test-output folder is created
 To run the unit tests if you are using the common dev-env use the following command:
 
 ```bash
-docker-compose exec flask-skeleton-api python3 manage.py unittest
+docker-compose exec flask-skeleton-api make unittest
 or, using the alias
 unit-test flask-skeleton-api
 ```
@@ -132,30 +127,24 @@ unit-test flask-skeleton-api
 or
 
 ```bash
-docker-compose exec flask-skeleton-api python3 manage.py unittest -r
+docker-compose exec flask-skeleton-api make report="true" unittest
 or, using the alias
 unit-test flask-skeleton-api -r
 ```
 
 ## Integration tests
 
-The integration tests are contained in the integration_tests folder. [Pytest](http://docs.pytest.org/en/latest/) is used for integration testing. To run the tests use the following command:
+The integration tests are contained in the integration_tests folder. [Pytest](http://docs.pytest.org/en/latest/) is used for integration testing. To run the tests and output a junit xml use the following command:
 
-```
-python3 manage.py integrationtest
+```shell
+make integrationtest
 (or py.test integration_tests)
-```
-
-To run them and output a junit xml file run:
-
-```
-python3 manage.py integrationtest -r
 ```
 
 This file gets added to the test-output folder. The test-output folder is created if doesn't exist.
 
 To run the integration tests if you are using the common dev-env use the following command:
 
+```shell
+docker-compose exec flask-skeleton-api make integrationtest
 ```
-docker-compose exec flask-skeleton-api python3 manage.py integrationtest
-
