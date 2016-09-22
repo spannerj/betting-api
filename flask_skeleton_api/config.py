@@ -4,7 +4,7 @@ import os
 # desired behaviour.
 # 2. No use of defaults when getting OS environment variables. They must all be set to the required values prior to the
 # app starting.
-# 3. This is the only file in the app where os.getenv should be used.
+# 3. This is the only file in the app where os.environ should be used.
 
 # For logging
 FLASK_LOG_LEVEL = os.environ['LOG_LEVEL']
