@@ -1,5 +1,5 @@
 # Set the base image to the base image
-FROM lr_base_python_flask
+FROM lr_base_python_flask:1
 
 # Using SQLAlchemy/Postgres?
 # See how the required env vars are set here:
@@ -13,7 +13,7 @@ ENV APP_NAME flask-skeleton-api
 
 # ----
 
-# The command to run the app is inherited from lr_base_python_flask 
+# The command to run the app is inherited from lr_base_python_flask
 
 # Get the python environment ready.
 # Have this at the end so if the files change, all the other steps don't need to be rerun. Same reason why _test is
