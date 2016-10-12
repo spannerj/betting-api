@@ -1,5 +1,8 @@
 
 # Created by https://www.gitignore.io/api/osx,windows,linux,jetbrains,python,virtualenv,visualstudiocode,sublimetext
+#
+# NOTE: This file has been modified. If recreating it from gitignore.io please
+# review the Git history for this file and consider each modification
 
 environment.sh
 
