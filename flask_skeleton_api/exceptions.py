@@ -28,6 +28,7 @@ def unhandled_exception(e):
 
 
 def application_error(e):
+    current_app.logger.debug('Application Exception: %s', repr(e), exc_info=True)
     return Response(response=json.dumps({"error_message": e.message, "error_code": e.code}), status=e.http_code)
 
 
