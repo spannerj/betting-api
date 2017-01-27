@@ -15,10 +15,15 @@ COMMIT = os.environ['COMMIT']
 # This APP_NAME variable is to allow changing the app name when the app is running in a cluster. So that
 # each app in the cluster will have a unique name.
 APP_NAME = os.environ['APP_NAME']
+MAX_CASCADE = os.environ['MAX_CASCADE'] 
 
 # Using SQLAlchemy/Postgres?
 # The required variables (and required usage) can be found here:
 # http://192.168.249.38/gadgets/gadget-api/blob/master/gadget_api/config.py
+
+# Used to indicate which dependencies are to be tested using the cascade health check
+# Should be the names of the environment variables delimited with ';' E.g:
+# DEPENDENCIES = "CASE_API_URL;WORKING_DAY_CAL_URL;SQLALCHEMY_DATABASE_URI"
 
 LOGCONFIG = {
     'version': 1,

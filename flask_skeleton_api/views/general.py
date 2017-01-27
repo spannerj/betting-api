@@ -1,5 +1,6 @@
 from flask import request, Blueprint, Response
 from flask import current_app
+import datetime
 import json
 
 # This is the blueprint object that gets registered into the app in blueprints.py.
@@ -14,3 +15,87 @@ def check_status():
         "headers": request.headers.to_list(),
         "commit": current_app.config["COMMIT"]
     }),  mimetype='application/json', status=200)
+
+@general.route("/v1/health/cascade/<str_depth>")
+def cascade_health(str_depth):
+    depth = int(str_depth)
+
+    if (depth < 0) or (depth > int(current_app.config.get("MAX_CASCADE"))):
+        app.logger.error("Cascade depth {} out of allowed range (0 - {})".format(depth, current_app.config.get("MAX_CASCADE")))
+        return Response(response=json.dumps({
+            "app": current_app.config.get("APP_NAME"),
+            "cascade_depth": str_depth,
+            "status": "ERROR",
+            "timestamp": str(datetime.datetime.now())
+        }),  mimetype='application/json', status=500)
+
+    dbs = []
+    services = []
+    overall_status = 200 # if we encounter a failure at any point then this will be set to != 200
+    if current_app.config.get("DEPENDENCIES") != None:
+        dependencies = current_app.config.get("DEPENDENCIES").split(';')
+        for dependency in dependencies:
+            dep = app.config.get(dependency)
+            # Below is an example of hitting a database dependency - in this instance postgresql
+            # It requires a route to obtain the current timestamp to be declared somewhere in code
+            # In the below example we have an sql.py script containing the get_current_timestamp() function
+            # if "postgresql" in dep:
+            #     # postgres db url - try calling current timestamp routine
+            #     db_timestamp = Sql.get_current_timestamp()[0]
+            #     db = {}
+            #     db["name"] = dep[dep.rfind('/') +1:]
+            #     db["status"] = "OK" if db_timestamp != None else "BAD"
+            #     if db_timestamp != None:
+            #         db["current_timestamp"] = db_timestamp.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + 'Z' # trim microseconds to 3 to match java
+            #     else:
+            #         overall_status = 500
+            #     dbs.append(db)
+            # else: #indent the following code to match the if..else block when database checks are included
+            # assume it's a service url and call it's casecade route with depth -1
+            if (depth > 0):
+                # As there is an inconsistant approach to url variables we need to check to see if we have a trailing '/' and add one if not
+                if dep[-1] != '/':
+                    dep = dep + '/'
+                service = {}
+                # print('Calling: ' + dep + 'v1/health/cascade/' + str(depth -1))
+                try:
+                    service["name"] = dependency
+                    service["type"] = "http"
+
+                    resp = requests.get(dep + 'v1/health/cascade/' + str(depth -1))
+
+                    service["status_code"] = resp.status_code
+                    service["content_type"] = resp.headers["content-type"]
+                    service["content"] = resp.json()
+
+                    if resp.status_code == 200:
+                        service["status"] = "OK"
+                    elif resp.status_code == 500:
+                        service["status"] = "BAD"
+                        overall_status = 500
+                    else:
+                        service["status"] = "UNKNOWN"
+                        overall_status = 500
+
+                    services.append(service)
+                    
+                except Exception as e:
+                    print(e)
+                    # The three items below are omitted for consistency with the java implementation where null entries are
+                    # not added to the final json by the json parser, but included to show consideration
+                    # service["status_code"] = None
+                    # service["content_type"] = None
+                    # service["content"] = None
+                    service["status"] = "UNKNOWN"
+                    overall_status = 500
+
+    return Response(response=json.dumps({
+        "cascade_depth": str_depth,
+        "server_timestamp": str(datetime.datetime.now()), 
+        "app": current_app.config.get("APP_NAME"),
+        "status": "OK",
+        "headers": request.headers.to_list(),        
+        "commit": current_app.config.get("COMMIT"),
+        "db": dbs,
+        "services": services
+        }),  mimetype='application/json', status = overall_status)            
