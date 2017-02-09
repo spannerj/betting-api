@@ -21,7 +21,7 @@ export FLASK_LOG_LEVEL=DEBUG
 export COMMIT=LOCAL
 
 # Run the app
-flask run
+python3 -m flask run
 ```
 
 or run the shell command:
