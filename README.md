@@ -20,6 +20,9 @@ export PORT=9998
 export FLASK_LOG_LEVEL=DEBUG
 export COMMIT=LOCAL
 
+# Install requirements
+pip3 install -r requirements.txt
+
 # Run the app
 python3 -m flask run
 ```
