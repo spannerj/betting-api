@@ -10,7 +10,7 @@ FROM lr_base_python_flask:2
 # Any unique environment variables your config.py needs should also be added as ENV entries here
 
 ENV APP_NAME flask-skeleton-api
-ENV MAX_CASCADE 6
+ENV MAX_HEALTH_CASCADE 6
 
 # ----
 
