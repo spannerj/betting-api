@@ -33,7 +33,6 @@ def cascade_health(str_depth):
     services = []
     overall_status = 200 # if we encounter a failure at any point then this will be set to != 200
     if current_app.config.get("DEPENDENCIES") is not None:
-        # dependencies = current_app.config.get("DEPENDENCIES").split(';')
         if (depth > 0):
             for dependency, value in current_app.config.get("DEPENDENCIES").items():
                 # dep = value
