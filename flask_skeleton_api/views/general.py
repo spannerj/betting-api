@@ -33,27 +33,26 @@ def cascade_health(str_depth):
     services = []
     overall_status = 200 # if we encounter a failure at any point then this will be set to != 200
     if current_app.config.get("DEPENDENCIES") is not None:
-        if (depth > 0):
-            for dependency, value in current_app.config.get("DEPENDENCIES").items():
-                # dep = value
-                # Below is an example of hitting a database dependency - in this instance postgresql
-                # It requires a route to obtain the current timestamp to be declared somewhere in code
-                # In the below example we have an sql.py script containing the get_current_timestamp() function
-                # if "postgresql" in dep:
-                #     # postgres db url - try calling current timestamp routine
-                #     db_timestamp = Sql.get_current_timestamp()[0]
-                #     db = {}
-                #     db["name"] = dep[dep.rfind('/') +1:]
-                #     db["status"] = "OK" if db_timestamp != None else "BAD"
-                #     if db_timestamp != None:
-                #         db["current_timestamp"] = db_timestamp.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + 'Z' # trim microseconds to 3 to match java
-                #     else:
-                #         overall_status = 500
-                #     dbs.append(db)
-                # else: #indent the following code to match the if..else block when database checks are included
-                # assume it's a service url and call it's casecade route with depth -1
-                # As there is an inconsistant approach to url variables we need to check to see if we have a trailing '/' and add one if not
-
+        for dependency, value in current_app.config.get("DEPENDENCIES").items():
+            # dep = value
+            # Below is an example of hitting a database dependency - in this instance postgresql
+            # It requires a route to obtain the current timestamp to be declared somewhere in code
+            # In the below example we have an sql.py script containing the get_current_timestamp() function
+            # if "postgresql" in dep:
+            #     # postgres db url - try calling current timestamp routine
+            #     db_timestamp = Sql.get_current_timestamp()[0]
+            #     db = {}
+            #     db["name"] = dep[dep.rfind('/') +1:]
+            #     db["status"] = "OK" if db_timestamp != None else "BAD"
+            #     if db_timestamp != None:
+            #         db["current_timestamp"] = db_timestamp.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + 'Z' # trim microseconds to 3 to match java
+            #     else:
+            #         overall_status = 500
+            #     dbs.append(db)
+            # else: #indent the following code to match the if..else block when database checks are included
+            # assume it's a service url and call it's casecade route with depth -1
+            # As there is an inconsistant approach to url variables we need to check to see if we have a trailing '/' and add one if not
+            if (depth > 0):
                 if value[-1] != '/':
                     value = value + '/'
                 service = {}
@@ -90,7 +89,7 @@ def cascade_health(str_depth):
                     overall_status = 500
 
     return Response(response=json.dumps({
-        "cascade_depth": str_depth,
+        "cascade_depth": depth,
         "server_timestamp": str(datetime.datetime.now()), 
         "app": current_app.config.get("APP_NAME"),
         "status": "OK",
