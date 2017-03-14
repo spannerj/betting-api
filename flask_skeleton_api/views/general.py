@@ -34,20 +34,20 @@ def cascade_health(str_depth):
     overall_status = 200 # if we encounter a failure at any point then this will be set to != 200
     if current_app.config.get("DEPENDENCIES") is not None:
         for dependency, value in current_app.config.get("DEPENDENCIES").items():
-            # dep = value
             # Below is an example of hitting a database dependency - in this instance postgresql
             # It requires a route to obtain the current timestamp to be declared somewhere in code
             # In the below example we have an sql.py script containing the get_current_timestamp() function
-            # if "postgresql" in dep:
+            # if "postgresql" in value:
             #     # postgres db url - try calling current timestamp routine
             #     db_timestamp = Sql.get_current_timestamp()[0]
             #     db = {}
-            #     db["name"] = dep[dep.rfind('/') +1:]
-            #     db["status"] = "OK" if db_timestamp != None else "BAD"
-            #     if db_timestamp != None:
+            #     db["name"] = dependency
+            #     if db_timestamp != None: 
             #         db["current_timestamp"] = db_timestamp.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + 'Z' # trim microseconds to 3 to match java
+            #         db["status"] = "OK"
             #     else:
             #         overall_status = 500
+            #         db["status"] = "BAD"
             #     dbs.append(db)
             # else: #indent the following code to match the if..else block when database checks are included
             # assume it's a service url and call it's casecade route with depth -1
