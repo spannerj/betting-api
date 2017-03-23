@@ -1,5 +1,5 @@
 from flask_script import Manager
-from flask_skeleton_api.main import app
+from betting_api.main import app
 import subprocess
 import os
 # Using Alembic?

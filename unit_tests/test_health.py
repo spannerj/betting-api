@@ -1,4 +1,4 @@
-from flask_skeleton_api.main import app
+from betting_api.main import app
 import unittest
 
 

@@ -31,15 +31,15 @@ LOGCONFIG = {
     'disable_existing_loggers': False,
     'formatters': {
         'simple': {
-            '()': 'flask_skeleton_api.extensions.JsonFormatter'
+            '()': 'betting_api.extensions.JsonFormatter'
         },
         'audit': {
-            '()': 'flask_skeleton_api.extensions.JsonAuditFormatter'
+            '()': 'betting_api.extensions.JsonAuditFormatter'
         }
     },
     'filters': {
         'contextual': {
-            '()': 'flask_skeleton_api.extensions.ContextualFilter'
+            '()': 'betting_api.extensions.ContextualFilter'
         }
     },
     'handlers': {
@@ -57,7 +57,7 @@ LOGCONFIG = {
         }
     },
     'loggers': {
-        'flask_skeleton_api': {
+        'betting_api': {
             'handlers': ['console'],
             'level': FLASK_LOG_LEVEL
         },

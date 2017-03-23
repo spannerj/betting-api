@@ -9,7 +9,7 @@ FROM lr_base_python_flask:2
 # Put your app-specific stuff here (extra yum installs etc).
 # Any unique environment variables your config.py needs should also be added as ENV entries here
 
-ENV APP_NAME flask-skeleton-api
+ENV APP_NAME betting-api
 ENV MAX_HEALTH_CASCADE 6
 
 # ----
